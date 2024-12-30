@@ -1,54 +1,61 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      # Используйте CanCanCan для управления авторизацией
-   
-      load_and_authorize_resource except: :create
+      before_action :authenticate_api_v1_user!, except: [:create]
 
       # GET /api/v1/users
       def index
-        @users = User.all
-        render json: @users
-      end
-
-      # GET /api/v1/users/:id
-      def show
-        render json: @user
+        if current_api_v1_user.admin?
+          users = User.all
+        else
+          users = [current_api_v1_user]
+        end
+        render json: users
       end
 
       # POST /api/v1/users
       def create
-        Rails.logger.info "Received params: #{params.inspect}"
-        @user = User.new(user_params)
-        if @user.save
-          render json: { message: 'User created successfully' }, status: :created
+        user = User.new(user_params)
+        if user.save
+          render json: { message: 'User created successfully', user: user }, status: :created
         else
-          Rails.logger.error "User creation failed: #{@user.errors.full_messages}"
-          render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+          render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
         end
       end
-      
-      
+
       # PATCH/PUT /api/v1/users/:id
       def update
-        if @user.update(user_params)
-          render json: @user
+        user = User.find(params[:id])
+        if user.update(user_params)
+          render json: { message: 'User updated successfully', user: user }
         else
-          render json: @user.errors, status: :unprocessable_entity
+          render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
       # DELETE /api/v1/users/:id
       def destroy
-        @user.destroy
-        head :no_content
+        user = User.find(params[:id])
+        user.destroy
+        render json: { message: 'User deleted successfully' }, status: :ok
       end
+
+      def show
+        user = User.find(params[:id])
+      
+        # Разрешить доступ только админу или самому пользователю
+        if current_api_v1_user.admin? || current_api_v1_user == user
+          render json: user
+        else
+          render json: { error: 'Access denied' }, status: :forbidden
+        end
+      end
+      
 
       private
 
-      # Разрешенные параметры для пользователя
       def user_params
-        params.require(:user).permit(:email, :password, :first_name, :last_name)
+        params.require(:user).permit(:email, :password, :first_name, :last_name, :role)
       end
     end
   end

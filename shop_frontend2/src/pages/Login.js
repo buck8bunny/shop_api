@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,22 +7,40 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // Устанавливаем интерсептор для добавления токенов в запросы
+  useEffect(() => {
+    axios.interceptors.request.use(
+      (config) => {
+        console.log('Interceptor triggered. Config before modification:', config);
+
+        const authHeaders = JSON.parse(localStorage.getItem('authHeaders'));
+        if (authHeaders) {
+          console.log('Auth headers found in localStorage:', authHeaders);
+          config.headers['access-token'] = authHeaders['access-token'];
+          config.headers['client'] = authHeaders['client'];
+          config.headers['uid'] = authHeaders['uid'];
+        }
+
+        console.log('Config after modification by interceptor:', config);
+        return config;
+      },
+      (error) => {
+        console.error('Interceptor error:', error);
+        return Promise.reject(error);
+      }
+    );
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log('Starting login process...');
-    console.log('Email:', email);
-    console.log('Password:', password);
+    console.log('Form submitted with email:', email, 'and password:', password);
 
     try {
-      console.log('Sending POST request to /api/v1/login...');
       const response = await axios.post(
-        'http://localhost:3000/api/v1/login', // Укажите полный путь до API
+        'http://localhost:3000/api/v1/auth/sign_in',
         {
-          user: {
-            email,
-            password,
-          },
+          email,
+          password,
         },
         {
           headers: {
@@ -31,29 +49,49 @@ const Login = () => {
         }
       );
 
-      console.log('Response received:', response);
+      console.log('Response received from API:', response);
 
-      // В Devise, токен может отсутствовать, используйте текущего пользователя
-      const { user } = response.data;
-      if (!user) {
-        console.error('User not found in response.');
-        throw new Error('User not found in response.');
-      }
+      // Извлечение токенов из заголовков
+      const authHeaders = {
+        'access-token': response.headers['access-token'],
+        client: response.headers['client'],
+        uid: response.headers['uid'],
+      };
 
-      console.log('User authenticated:', user);
+      console.log('Authentication headers extracted:', authHeaders);
 
-      // Сохраняем ID пользователя в localStorage
-      localStorage.setItem('user', JSON.stringify(user));
-      console.log('User data saved to localStorage.');
+      // Сохранение токенов в localStorage
+      localStorage.setItem('authHeaders', JSON.stringify(authHeaders));
+
+      // Сохранение данных пользователя
+      const userData = response.data.data;
+      localStorage.setItem('user', JSON.stringify(userData));
+
+      console.log('User authenticated and saved to localStorage:', userData);
 
       // Переход на главную страницу
-      console.log('Navigating to the homepage...');
       navigate('/');
     } catch (error) {
-      console.error('Login failed:', error.response?.data || error.message);
+      console.error('Login failed. Error details:', error.response?.data || error.message);
       alert('Login failed! Please check your email and password.');
     }
   };
+
+  // Проверка авторизации при загрузке компонента
+  useEffect(() => {
+    console.log('Checking for existing authentication...');
+
+    const authHeaders = JSON.parse(localStorage.getItem('authHeaders'));
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (authHeaders && user) {
+      console.log('User is already authenticated:', user);
+      // Здесь можно перенаправить авторизованного пользователя, если требуется
+      // navigate('/');
+    } else {
+      console.log('User is not authenticated');
+    }
+  }, [navigate]);
 
   return (
     <form onSubmit={handleSubmit}>

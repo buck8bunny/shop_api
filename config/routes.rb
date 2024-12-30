@@ -1,13 +1,9 @@
 Rails.application.routes.draw do
-  post '/api/v1/login', to: 'application#login'
-
   namespace :api do
     namespace :v1 do
-      devise_for :users, path: '', path_names: {
-      sign_in: 'login',
-      sign_out: 'logout',
-      registration: 'sign_up'
-    }
+      mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+        sessions: 'sessions'
+      }
 
       resources :users, only: [:index, :show, :update, :destroy, :create]
       resources :items

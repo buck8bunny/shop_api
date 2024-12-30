@@ -4,7 +4,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import AdminPanel from './pages/AdminPanel';
-
+import AdminUsersTable from './components/AdminUsersTable';
 const App = () => (
   <Router>
     <Routes>
@@ -12,6 +12,7 @@ const App = () => (
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<AdminPanel />} />
       <Route path="/" element={<Home />} />
+      <Route path="/admin/users" element={<AdminUsersTable />} />
     </Routes>
   </Router>
 );
