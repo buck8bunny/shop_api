@@ -85,93 +85,110 @@ const AdminUsersTable = () => {
 
   return (
     <div>
-      <h2>Admin Users Table</h2>
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Role</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>
-                {editingUser && editingUser.id === user.id ? (
-                  <input
-                    type="text"
-                    value={editingUser.email}
-                    onChange={(e) =>
-                      setEditingUser({ ...editingUser, email: e.target.value })
-                    }
-                  />
-                ) : (
-                  user.email
-                )}
-              </td>
-              <td>
-                {editingUser && editingUser.id === user.id ? (
-                  <input
-                    type="text"
-                    value={editingUser.first_name}
-                    onChange={(e) =>
-                      setEditingUser({ ...editingUser, first_name: e.target.value })
-                    }
-                  />
-                ) : (
-                  user.first_name
-                )}
-              </td>
-              <td>
-                {editingUser && editingUser.id === user.id ? (
-                  <input
-                    type="text"
-                    value={editingUser.last_name}
-                    onChange={(e) =>
-                      setEditingUser({ ...editingUser, last_name: e.target.value })
-                    }
-                  />
-                ) : (
-                  user.last_name
-                )}
-              </td>
-              <td>
-                {currentUser.role === 'admin' && editingUser && editingUser.id === user.id ? (
-                  <select
-                    value={editingUser.role}
-                    onChange={(e) =>
-                      setEditingUser({ ...editingUser, role: e.target.value })
-                    }
-                  >
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                ) : (
-                  user.role
-                )}
-              </td>
-              <td>
-                {editingUser && editingUser.id === user.id ? (
-                  <>
-                    <button onClick={() => handleUpdate(editingUser)}>Save</button>
-                    <button onClick={() => setEditingUser(null)}>Cancel</button>
-                  </>
-                ) : (
-                  <>
-                    <button onClick={() => setEditingUser(user)}>Edit</button>
-                    {currentUser.role === 'admin' && (
-                      <button onClick={() => handleDelete(user.id)}>Delete</button>
-                    )}
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {currentUser.role === 'admin' ? (
+      <h2 className="text-center mb-4">Admin Panel</h2>
+    ) : (
+      <h2 className="text-center mb-4">Your profile data</h2>
+    )}
+      <table className="table table-striped table-hover">
+  <thead className="thead-dark">
+    <tr>
+      <th>Email</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {users.map((user) => (
+      <tr key={user.id}>
+        <td>
+          {editingUser && editingUser.id === user.id ? (
+            <input
+              type="text"
+              className="form-control"
+              value={editingUser.email}
+              onChange={(e) =>
+                setEditingUser({ ...editingUser, email: e.target.value })
+              }
+            />
+          ) : (
+            user.email
+          )}
+        </td>
+        <td>
+          {editingUser && editingUser.id === user.id ? (
+            <input
+              type="text"
+              className="form-control"
+              value={editingUser.first_name}
+              onChange={(e) =>
+                setEditingUser({ ...editingUser, first_name: e.target.value })
+              }
+            />
+          ) : (
+            user.first_name
+          )}
+        </td>
+        <td>
+          {editingUser && editingUser.id === user.id ? (
+            <input
+              type="text"
+              className="form-control"
+              value={editingUser.last_name}
+              onChange={(e) =>
+                setEditingUser({ ...editingUser, last_name: e.target.value })
+              }
+            />
+          ) : (
+            user.last_name
+          )}
+        </td>
+        <td>
+          {currentUser.role === 'admin' && editingUser && editingUser.id === user.id ? (
+            <select
+              className="form-select"
+              value={editingUser.role}
+              onChange={(e) =>
+                setEditingUser({ ...editingUser, role: e.target.value })
+              }
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          ) : (
+            user.role
+          )}
+        </td>
+        <td>
+          {editingUser && editingUser.id === user.id ? (
+            <>
+              <button className="btn btn-success btn-sm me-2" onClick={() => handleUpdate(editingUser)}>
+                Save
+              </button>
+              <button className="btn btn-secondary btn-sm" onClick={() => setEditingUser(null)}>
+                Cancel
+              </button>
+            </>
+          ) : (
+            <>
+              <button className="btn btn-primary btn-sm me-2" onClick={() => setEditingUser(user)}>
+                Edit
+              </button>
+              {currentUser.role === 'admin' && (
+                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(user.id)}>
+                  Delete
+                </button>
+              )}
+            </>
+          )}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
     </div>
   );
 };

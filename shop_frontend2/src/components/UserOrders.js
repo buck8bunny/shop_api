@@ -76,65 +76,51 @@ const UserOrders = () => {
       }
     };
   
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p style={{ color: 'red' }}>{error}</p>;
+    if (loading) return <div className="text-center mt-5">Loading...</div>;
+    if (error) return <div className="alert alert-danger text-center">{error}</div>;
   
     return (
-      <div>
-        <h2>Your Orders</h2>
+      <div className="container mt-5">
+        <h2 className="text-center mb-4">Your Orders</h2>
         {orders.length === 0 ? (
-          <p>You have no orders.</p>
+          <div className="alert alert-warning text-center">You have no orders.</div>
         ) : (
-          <ul>
+          <div className="row">
             {orders.map((order) => (
-              <li key={order.id}>
-                <div>
-                  <strong>Order ID:</strong> {order.id} <br />
-                  <strong>Amount:</strong> {order.amount}
-                  <button onClick={() => toggleOrderDetails(order.id)} style={{ marginLeft: '10px' }}>
-                    {expandedOrderId === order.id ? 'Hide Details' : 'View Details'}
-                  </button>
-                </div>
-                {expandedOrderId === order.id && (() => {
-                  console.log('Checking order details for order ID:', order.id);
-                  console.log('Order details:', order.details);
-  
-                  if (!order.details) {
-                    console.warn('Order details are undefined for order ID:', order.id);
-                    return null;
-                  }
-  
-                  if (!order.details.order_descriptions) {
-                    console.warn('Order descriptions are undefined for order ID:', order.id);
-                    return null;
-                  }
-  
-                  console.log('Order descriptions:', order.details.order_descriptions);
-  
-                  return (
-                    <div style={{ marginLeft: '20px', marginTop: '10px' }}>
-                      <h4>Order Details:</h4>
-                      <ul>
-                        {order.details.order_descriptions.map((desc) => {
-                          console.log('Rendering order description:', desc);
-                          return (
-                            <li key={desc.id}>
-                              <strong>Item Name:</strong> {desc.item?.name || 'N/A'} <br />
-                              <strong>Quantity:</strong> {desc.quantity}
-                            </li>
-                          );
-                        })}
+              <div className="col-md-6 mb-4" key={order.id}>
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">Order ID: {order.id}</h5>
+                    <p className="card-text">
+                      <strong>Amount:</strong> {order.amount} $
+                    </p>
+                    <button
+                      className={`btn btn-${expandedOrderId === order.id ? 'secondary' : 'primary'}`}
+                      onClick={() => toggleOrderDetails(order.id)}
+                    >
+                      {expandedOrderId === order.id ? 'Hide Details' : 'View Details'}
+                    </button>
+                  </div>
+                  {expandedOrderId === order.id && order.details && (
+                    <div className="card-footer">
+                      <h6>Order Details:</h6>
+                      <ul className="list-group list-group-flush">
+                        {order.details.order_descriptions.map((desc) => (
+                          <li className="list-group-item" key={desc.id}>
+                            <strong>Item:</strong> {desc.item?.name || 'N/A'} <br />
+                            <strong>Quantity:</strong> {desc.quantity}
+                          </li>
+                        ))}
                       </ul>
                     </div>
-                  );
-                })()}
-              </li>
+                  )}
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     );
   };
-  
   export default UserOrders;
   

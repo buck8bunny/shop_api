@@ -120,8 +120,6 @@ const ItemsTable = () => {
       )
     );
     
-
-
     // Сброс редактируемого элемента
     setEditingItem(null);
   } catch (err) {
@@ -130,10 +128,7 @@ const ItemsTable = () => {
   }
 };
 
-  
-  
-
-  const handleAddToCart = (item, quantity) => {
+    const handleAddToCart = (item, quantity) => {
     console.log('Adding to cart:', item, 'Quantity:', quantity);
   
     if (quantity <= 0) {
@@ -220,140 +215,188 @@ const ItemsTable = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
-  return (
-    <div>
-      <h2>Items Table</h2>
-      <input
-        type="text"
-        placeholder="Search items..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      {currentUser?.role === 'admin' && (
-        <div>
-          <h3>Add New Item</h3>
-          <input
-            type="text"
-            placeholder="Name"
-            value={newItem.name}
-            onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Description"
-            value={newItem.description}
-            onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder="Price"
-            value={newItem.price}
-            onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
-          />
-          <button onClick={handleAddItem}>Add Item</button>
+return (
+  <div className="container mt-4">
+    <h2 className="mb-4">Items Table</h2>
+    <input
+      type="text"
+      className="form-control mb-3"
+      placeholder="Search items..."
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+    />
+
+    {currentUser?.role === 'admin' && (
+      <div className="mb-4">
+        <h3>Add New Item</h3>
+        <div className="row">
+          <div className="col-md-3">
+            <input
+              type="text"
+              className="form-control mb-2"
+              placeholder="Name"
+              value={newItem.name}
+              onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+            />
+          </div>
+          <div className="col-md-3">
+            <input
+              type="text"
+              className="form-control mb-2"
+              placeholder="Description"
+              value={newItem.description}
+              onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
+            />
+          </div>
+          <div className="col-md-3">
+            <input
+              type="number"
+              className="form-control mb-2"
+              placeholder="Price"
+              value={newItem.price}
+              onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
+            />
+          </div>
+          <div className="col-md-3">
+            <button className="btn btn-primary w-100" onClick={handleAddItem}>
+              Add Item
+            </button>
+          </div>
         </div>
-      )}
+      </div>
+    )}
 
-{editingItem && (
-  <div>
-    <h3>Edit Item</h3>
-    <input
-      type="text"
-      placeholder="Name"
-      value={editingItem.name}
-      onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
-    />
-    <input
-      type="text"
-      placeholder="Description"
-      value={editingItem.description}
-      onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })}
-    />
-    <input
-      type="number"
-      placeholder="Price"
-      value={editingItem.price}
-      onChange={(e) => setEditingItem({ ...editingItem, price: e.target.value })}
-    />
-    <button onClick={handleEditItem}>Save Changes</button>
-    <button onClick={() => setEditingItem(null)}>Cancel</button>
-  </div>
-)}
+    {editingItem && (
+      <div className="mb-4">
+        <h3>Edit Item</h3>
+        <div className="row">
+          <div className="col-md-3">
+            <input
+              type="text"
+              className="form-control mb-2"
+              placeholder="Name"
+              value={editingItem.name}
+              onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
+            />
+          </div>
+          <div className="col-md-3">
+            <input
+              type="text"
+              className="form-control mb-2"
+              placeholder="Description"
+              value={editingItem.description}
+              onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })}
+            />
+          </div>
+          <div className="col-md-3">
+            <input
+              type="number"
+              className="form-control mb-2"
+              placeholder="Price"
+              value={editingItem.price}
+              onChange={(e) => setEditingItem({ ...editingItem, price: e.target.value })}
+            />
+          </div>
+          <div className="col-md-3">
+            <button className="btn btn-success w-100" onClick={handleEditItem}>
+              Save Changes
+            </button>
+            <button className="btn btn-secondary w-100 mt-2" onClick={() => setEditingItem(null)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
 
-
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            {currentUser?.role === 'user' && <th>Quantity</th>}
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredItems.map((item) => (
-            <tr key={item.id}>
-              <td>{item.name}</td>
-              <td>{item.description}</td>
-              <td>{item.price}</td>
-              {currentUser?.role === 'user' && (
-                <td>
-                  <input
-                    type="number"
-                    defaultValue={1}
-                    min={1}
-                    onChange={(e) =>
-                      handleAddToCart(item, parseInt(e.target.value) || 1)
-                    }
-                  />
-                </td>
-              )}
-
-              
+    <table className="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          {currentUser?.role === 'user' && <th>Quantity</th>}
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filteredItems.map((item) => (
+          <tr key={item.id}>
+            <td>{item.name}</td>
+            <td>{item.description}</td>
+            <td>{item.price}</td>
+            {currentUser?.role === 'user' && (
               <td>
-                {currentUser?.role === 'admin' && (
-                  <>
-                    <button onClick={() => setEditingItem(item)}>Edit</button>
-                    <button onClick={() => handleDeleteItem(item.id)}>Delete</button>
-                  </>
-                )}
-                {currentUser?.role === 'user' && (
-                  <button onClick={() => handleAddToCart(item, 1)}>Add to Cart</button>
-                )}
+                <input
+                  type="number"
+                  className="form-control"
+                  defaultValue={1}
+                  min={1}
+                  onChange={(e) =>
+                    handleAddToCart(item, parseInt(e.target.value) || 1)
+                  }
+                />
               </td>
+            )}
+            <td>
+              {currentUser?.role === 'admin' && (
+                <>
+                  <button
+                    className="btn btn-warning btn-sm me-2"
+                    onClick={() => setEditingItem(item)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDeleteItem(item.id)}
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
+              {currentUser?.role === 'user' && (
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={() => handleAddToCart(item, 1)}
+                >
+                  Add to Cart
+                </button>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
 
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {currentUser?.role === 'user' && cart.length > 0 && (
-        <div>
+    {currentUser?.role === 'user' && cart.length > 0 && (
+      <div className="mt-4">
         <h3>Your Cart</h3>
-        <ul>
+        <ul className="list-group mb-3">
           {cart.map((item) => (
-            <li key={item.id}>
-              {item.name} - 
+            <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center">
+              <span>{item.name}</span>
               <input
                 type="number"
+                className="form-control w-25 me-2"
                 value={item.quantity}
                 min={1}
                 onChange={(e) =>
                   handleAddToCart(item, parseInt(e.target.value) || 1)
                 }
               />
-              x {item.price}
+              <span>{item.price * item.quantity}</span>
             </li>
           ))}
         </ul>
-        <button onClick={handleCheckout}>Checkout</button>
+        <button className="btn btn-success" onClick={handleCheckout}>
+          Checkout
+        </button>
       </div>
-      
-      )}
+    )}
+  </div>
+);
 
-      
-    </div>
-  );
 };
 
 export default ItemsTable;

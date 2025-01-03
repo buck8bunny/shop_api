@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ItemList from '../components/ItemList';
+
 
 const Home = () => {
   const [user, setUser] = useState(null); // Хранит данные о текущем пользователе
@@ -22,26 +22,33 @@ const Home = () => {
     navigate('/register'); // Переход на страницу регистрации
   };
 
+  
   const handleLogout = () => {
+    // Удаляем данные пользователя и токены из localStorage
+    localStorage.removeItem('authHeaders');
     localStorage.removeItem('user');
-    setUser(null); // Сбрасываем состояние пользователя
+  
+    console.log('User logged out. LocalStorage cleared.');
+  
+    // Обновляем страницу
+    window.location.reload();
   };
   
   return (
-    <div>
-      <h1>Welcome to the Shop</h1>
+    <div className="container text-center mt-5">
+      <h1 className="mb-4">Welcome to the Shop</h1>
       {!user ? (
         // Если пользователь не авторизован
-        <div>
-          <button onClick={handleLogin}>Login</button>
-          <button onClick={handleRegister}>Register</button>
+        <div className="d-flex justify-content-center gap-3">
+          <button className="btn btn-primary" onClick={handleLogin}>Login</button>
+          <button className="btn btn-secondary" onClick={handleRegister}>Register</button>
         </div>
       ) : (
         // Если пользователь авторизован
         <div>
-          <h2>Hello, {user.first_name}!</h2>
-          <p>Enjoy browsing our shop!</p>
-          <button onClick={handleLogout}>Logout</button>
+          <h2>Hello, <span className="text-primary">{user.first_name}</span>!</h2>
+          <p className="lead">Enjoy browsing our shop!</p>
+          <button className="btn btn-danger mt-3" onClick={handleLogout}>Logout</button>
         </div>
       )}
       {/* <ItemList /> */}
