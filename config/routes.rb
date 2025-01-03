@@ -6,8 +6,10 @@ Rails.application.routes.draw do
       }
 
       resources :users, only: [:index, :show, :update, :destroy, :create]
-      resources :items
+      resources :items, only: [:index, :show, :create, :update, :destroy]
       resources :orders, only: [:index, :create, :show]
+      resources :order_descriptions, only: [:create]
+      
     end
   end
 end

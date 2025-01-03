@@ -1,13 +1,12 @@
 module Api
   module V1
     class ItemsController < ApplicationController
-      before_action :authenticate_user!
-      before_action :set_item, only: [:show, :update, :destroy]
-      before_action :admin_only, only: [:create, :update, :destroy]
+      before_action :authenticate_api_v1_user!
+      before_action :authorize_admin!, only: [:create, :update, :destroy]
 
       def index
-        @items = Item.all
-        render json: @items
+        items = Item.all
+        render json: items
       end
 
       def create
@@ -15,39 +14,36 @@ module Api
         if @item.save
           render json: @item, status: :created
         else
-          render json: @item.errors, status: :unprocessable_entity
+          render json: { error: @item.errors.full_messages }, status: :unprocessable_entity
         end
       end
-
-      def show
-        render json: @item
-      end
+      
 
       def update
-        if @item.update(item_params)
-          render json: @item
+        item = Item.find(params[:id])
+        if item.update(item_params)
+          render json: { message: 'Item updated successfully', item: item }
         else
-          render json: @item.errors, status: :unprocessable_entity
+          render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
       def destroy
-        @item.destroy
-        head :no_content
+        item = Item.find(params[:id])
+        item.destroy
+        render json: { message: 'Item deleted successfully' }, status: :ok
       end
 
       private
-
-      def set_item
-        @item = Item.find(params[:id])
-      end
 
       def item_params
         params.require(:item).permit(:name, :description, :price)
       end
 
-      def admin_only
-        render json: { error: 'Forbidden' }, status: :forbidden unless current_user.admin?
+      def authorize_admin!
+        unless current_api_v1_user&.admin?
+          render json: { error: 'Access denied' }, status: :forbidden
+        end
       end
     end
   end
