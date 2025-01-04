@@ -50,11 +50,11 @@ const Login = () => {
   
       // Извлечение токенов из заголовков
       const authHeaders = {
-        'access-token': response.headers['access-token'],
-        client: response.headers['client'],
-        uid: response.headers['uid'],
+        'access-token': response.headers['access-token'] || response.headers['Access-Token'],
+        client: response.headers['client'] || response.headers['Client'],
+        uid: response.headers['uid'] || response.headers['Uid'],
       };
-  
+          
       console.log('Authentication headers extracted:', authHeaders);
   
       // Сохранение токенов в localStorage
