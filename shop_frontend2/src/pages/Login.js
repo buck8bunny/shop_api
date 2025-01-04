@@ -46,6 +46,9 @@ const Login = () => {
   
       // Логируем все заголовки, чтобы понять, что приходит
       console.log('All response headers:', response.headers);
+console.log('Access-Token:', response.headers['access-token']);
+console.log('Authorization:', response.headers['authorization']);
+
   
       // Попробуем извлечь токены
       const authHeaders = {
