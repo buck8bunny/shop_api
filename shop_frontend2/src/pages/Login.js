@@ -34,41 +34,43 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form submitted with email:', email, 'and password:', password);
-    
+  
     try {
       const response = await axios.post(
         `${API_URL}/api/v1/auth/sign_in`,
         { email, password },
         { headers: { 'Content-Type': 'application/json' } }
       );
-    
+  
       console.log('Response received from API:', response);
-    
-      // Теперь получаем заголовки, в которых находятся токены
+  
+      // Логируем все заголовки, чтобы понять, что приходит
+      console.log('All response headers:', response.headers);
+  
+      // Попробуем извлечь токены
       const authHeaders = {
         'access-token': response.headers['access-token'],
-        client: response.headers['client'],
-        uid: response.headers['uid'],
+        'client': response.headers['client'],
+        'uid': response.headers['uid'],
       };
-    
-      console.log('Authentication headers extracted:', authHeaders);
-    
-      // Если токен не найден, выводим ошибку
+  
       if (!authHeaders['access-token']) {
         console.error('Access token is missing');
         alert('Login failed! Missing access token.');
         return;
       }
-    
+  
+      console.log('Authentication headers extracted:', authHeaders);
+  
       // Сохранение токенов в localStorage
       localStorage.setItem('authHeaders', JSON.stringify(authHeaders));
-    
+  
       // Сохранение данных пользователя
       const userData = response.data.data;
       localStorage.setItem('user', JSON.stringify(userData));
-    
+  
       console.log('User authenticated and saved to localStorage:', userData);
-    
+  
       // Переход на главную страницу
       navigate('/');
     } catch (error) {
@@ -76,6 +78,7 @@ const Login = () => {
       alert('Login failed! Please check your email and password.');
     }
   };
+  
   
   
 
