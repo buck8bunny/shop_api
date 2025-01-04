@@ -16,11 +16,8 @@
 # end
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    if Rails.env.production?
-      origins 'https://shop-s2wc.onrender.com'  # Продукшн-домен
-    else
-      origins 'http://localhost:3001'  # Локальный фронтенд
-    end
+    origins 'https://shop-s2wc.onrender.com', 'http://localhost:3001'
+    
 
 
     resource '*',
