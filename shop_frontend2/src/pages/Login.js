@@ -37,12 +37,19 @@ const Login = () => {
   
     try {
       const response = await axios.post(
-         `${API_URL}/api/v1/auth/sign_in`,
+        `${API_URL}/api/v1/auth/sign_in`,
         {
           email,
           password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Origin': 'https://shop-api-indol-nu.vercel.app', // Добавьте ваш домен, если сервер этого требует
+          },
         }
       );
+      
   
       console.log('Response received from API:', response);
       console.log('All response headers:', response.headers);
