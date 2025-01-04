@@ -28,7 +28,6 @@ const UserOrders = () => {
         console.log('Fetching user orders...');
         setLoading(true);
         const response = await axios.get(`${API_URL}/api/v1/orders`, {
-        const response = await axios.get(`${API_URL}/api/v1/orders`, {
           headers: getAuthHeaders(),
         });
         console.log('Orders fetched successfully:', response.data);
@@ -44,7 +43,6 @@ const UserOrders = () => {
     const fetchOrderDetails = async (orderId) => {
       try {
         console.log('Fetching details for order ID:', orderId);
-        const response = await axios.get(`${API_URL}/api/v1/orders/${orderId}`, {
         const response = await axios.get(`${API_URL}/api/v1/orders/${orderId}`, {
           headers: getAuthHeaders(),
         });
