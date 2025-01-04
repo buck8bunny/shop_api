@@ -36,26 +36,17 @@ const Login = () => {
     console.log('Form submitted with email:', email, 'and password:', password);
   
     try {
-      // const response = await axios.post(
-      //   `${API_URL}/api/v1/auth/sign_in`,
-      //   { email, password },
-      //   {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     withCredentials: true, // Добавьте, если сервер требует
-      //   }
-      // );
+      const response = await axios.post(
+        `${API_URL}/api/v1/auth/sign_in`,
+        { email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true, // Добавьте, если сервер требует
+        }
+      );
       
-      const response = await fetch(`${API_URL}/api/v1/auth/sign_in`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-        credentials: 'include',
-      });
-      console.log('Headers:', response.headers.get('access-token'));
       
   
       console.log('Response received from API:', response);
