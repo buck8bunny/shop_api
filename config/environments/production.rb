@@ -10,10 +10,13 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled.
-  config.consider_all_requests_local = false
+  # config.consider_all_requests_local = false
+  config.consider_all_requests_local = true
 
   # Cache assets for far-future expiry since they are all digest stamped.
-  config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
+
+  # config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
+  config.action_controller.perform_caching = false
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
@@ -41,14 +44,15 @@ Rails.application.configure do
   config.silence_healthcheck_path = "/up"
 
   # Don't log any deprecations.
-  config.active_support.report_deprecations = false
+  # config.active_support.report_deprecations = false
+  config.active_support.deprecation = :log
 
   # Replace the default in-process memory cache store with a durable alternative.
-  config.cache_store = :solid_cache_store
+  #   config.cache_store = :memory_store
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
   config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
+  # config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -84,12 +88,18 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
-  config.hosts << "https://shop-s2wc.onrender.com"
+  config.hosts << "shop-api-308l.onrender.com"
+  config.hosts << "shop-api-indol-nu.vercel.app"
+  config.hosts << "https://shop-api-308l.onrender.com"
+  config.hosts << "https://shop-api-indol-nu.vercel.app"
+ config.hosts << "http://127.0.0.1:3000"
+
+
   # config/environments/production.rb
   config.public_file_server.enabled = true
   config.public_file_server.index_name = 'index.html'  # Для фронтенда
 # Отключите Action Cable, если не используете
 config.action_cable.mount_path = nil
-
-
+# config.force_ssl = true  
+# config.api_only = true
 end
