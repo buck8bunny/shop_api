@@ -84,7 +84,7 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
-  config.hosts << "shop-s2wc.onrender.com"
+  config.hosts << "https://shop-front-1i0l.onrender.com"
   # config/environments/production.rb
   config.public_file_server.enabled = true
   config.public_file_server.index_name = 'index.html'  # Для фронтенда
