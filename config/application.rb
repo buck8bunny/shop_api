@@ -42,7 +42,7 @@ module ShopApi
         origins 'https://shop-api-308l.onrender.com', 'http://localhost:3001', 'http://127.0.0.1:3000', 'http://localhost:3000', 'https://shop-api-indol-nu.vercel.app', 'http://0.0.0.0:3000'
         resource '*',
                 headers: :any,
-                methods: [:get, :post, :put, :patch, :delete, :options, :head]
+                methods: [:get, :post, :put, :patch, :delete, :options, :head],
                 expose: ['access-token', 'expiry', 'token-type', 'uid', 'client'] 
       end
     end
