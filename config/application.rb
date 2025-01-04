@@ -43,6 +43,7 @@ module ShopApi
         resource '*',
                 headers: :any,
                 methods: [:get, :post, :put, :patch, :delete, :options, :head]
+                expose: ['access-token', 'expiry', 'token-type', 'uid', 'client'] 
       end
     end
 
