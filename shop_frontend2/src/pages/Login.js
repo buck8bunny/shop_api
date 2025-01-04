@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+const API_URL = process.env.REACT_APP_API_URL;
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,7 +37,7 @@ const Login = () => {
   
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/v1/auth/sign_in',
+        `${API_URL}/api/v1/auth/sign_in`,
         {
           email,
           password,
