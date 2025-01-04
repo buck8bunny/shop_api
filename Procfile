@@ -1,4 +1,2 @@
-web: bundle exec rails server -p $PORT -e $RAILS_ENV
-release: npm run build --prefix ./shop_frontend2 && bundle exec rails db:migrate
-
+web: bundle exec rails server -p $PORT -b 0.0.0.0
 
