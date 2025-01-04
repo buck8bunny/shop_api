@@ -94,6 +94,6 @@ Rails.application.configure do
   config.public_file_server.index_name = 'index.html'  # Для фронтенда
 # Отключите Action Cable, если не используете
 config.action_cable.mount_path = nil
-
-config.api_only = true
+config.force_ssl = true  
+# config.api_only = true
 end
