@@ -34,46 +34,41 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form submitted with email:', email, 'and password:', password);
-  
+    
     try {
       const response = await axios.post(
         `${API_URL}/api/v1/auth/sign_in`,
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
+        { email, password },
+        { headers: { 'Content-Type': 'application/json' } }
       );
-  
+    
       console.log('Response received from API:', response);
-  
-      // Извлечение токенов из заголовков
+    
+      // Теперь получаем заголовки, в которых находятся токены
       const authHeaders = {
         'access-token': response.headers['access-token'],
         client: response.headers['client'],
         uid: response.headers['uid'],
       };
-  
+    
       console.log('Authentication headers extracted:', authHeaders);
-  
-      if (authHeaders['access-token']) {
-        // Сохранение токенов в localStorage
-        localStorage.setItem('authHeaders', JSON.stringify(authHeaders));
-        console.log('Auth headers saved to localStorage');
-      } else {
-        console.error('Missing access-token in response headers');
+    
+      // Если токен не найден, выводим ошибку
+      if (!authHeaders['access-token']) {
+        console.error('Access token is missing');
+        alert('Login failed! Missing access token.');
+        return;
       }
-  
+    
+      // Сохранение токенов в localStorage
+      localStorage.setItem('authHeaders', JSON.stringify(authHeaders));
+    
       // Сохранение данных пользователя
       const userData = response.data.data;
       localStorage.setItem('user', JSON.stringify(userData));
-  
+    
       console.log('User authenticated and saved to localStorage:', userData);
-  
+    
       // Переход на главную страницу
       navigate('/');
     } catch (error) {
