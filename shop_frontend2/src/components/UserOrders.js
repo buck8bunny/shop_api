@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+const API_URL = process.env.REACT_APP_API_URL;
 const UserOrders = () => {
     const [orders, setOrders] = useState([]);
     const [expandedOrderId, setExpandedOrderId] = useState(null);
@@ -26,7 +27,7 @@ const UserOrders = () => {
       try {
         console.log('Fetching user orders...');
         setLoading(true);
-        const response = await axios.get('http://localhost:3000/api/v1/orders', {
+        const response = await axios.get(`${API_URL}/api/v1/orders`, {
           headers: getAuthHeaders(),
         });
         console.log('Orders fetched successfully:', response.data);
@@ -42,7 +43,7 @@ const UserOrders = () => {
     const fetchOrderDetails = async (orderId) => {
       try {
         console.log('Fetching details for order ID:', orderId);
-        const response = await axios.get(`http://localhost:3000/api/v1/orders/${orderId}`, {
+        const response = await axios.get(`${API_URL}/api/v1/orders/${orderId}`, {
           headers: getAuthHeaders(),
         });
         console.log('Order details fetched successfully:', response.data);

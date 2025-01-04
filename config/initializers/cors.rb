@@ -16,8 +16,7 @@
 # end
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'http://localhost:3001' # Укажите домен вашего React-приложения
-
+    origins 'https://shop-api-indol-nu.vercel.app', 'http://localhost:3001', 'https://shop-s2wc.onrender.com'
     resource '*',
       credentials: true,
       headers: :any,

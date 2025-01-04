@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+const API_URL = process.env.REACT_APP_API_URL;
 
 const AdminUsersTable = () => {
   const [users, setUsers] = useState([]);
@@ -34,8 +35,8 @@ const AdminUsersTable = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:3000/api/v1/users', {
-        headers: getAuthHeaders(),
+      const response = await axios.get(`${API_URL}/api/v1/users`, {
+          headers: getAuthHeaders(),
       });
       setUsers(response.data);
     } catch (err) {
@@ -49,7 +50,7 @@ const AdminUsersTable = () => {
   // Удалить пользователя
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/v1/users/${id}`, {
+      await axios.delete(`${API_URL}/api/v1/users/${id}`, {
         headers: getAuthHeaders(),
       });
       setUsers(users.filter((user) => user.id !== id));
@@ -63,7 +64,7 @@ const AdminUsersTable = () => {
   const handleUpdate = async (updatedUser) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/v1/users/${updatedUser.id}`,
+        `${API_URL}/api/v1/users/${updatedUser.id}`,
         updatedUser,
         { headers: getAuthHeaders() }
       );

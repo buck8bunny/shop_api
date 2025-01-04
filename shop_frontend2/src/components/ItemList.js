@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+const API_URL = process.env.REACT_APP_API_URL;
 const ItemsTable = () => {
   const [items, setItems] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
@@ -43,7 +43,7 @@ const ItemsTable = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:3000/api/v1/users/${userId}`, {
+      const response = await axios.get(`${API_URL}/api/v1/users/${userId}`, {
         headers: getAuthHeaders(),
       });
       console.log('Current User Response:', response.data);
@@ -58,7 +58,7 @@ const ItemsTable = () => {
     try {
       setLoading(true);
       console.log('Fetching items...');
-      const response = await axios.get('http://localhost:3000/api/v1/items', {
+      const response = await axios.get(`${API_URL}/api/v1/items`, {
         headers: getAuthHeaders(),
       });
       console.log('Items Response:', response.data);
@@ -75,7 +75,7 @@ const ItemsTable = () => {
     console.log('Adding new item:', newItem);
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/v1/items',
+        `${API_URL}/api/v1/items`,
         newItem,
         { headers: getAuthHeaders() }
       );
@@ -91,7 +91,7 @@ const ItemsTable = () => {
   const handleDeleteItem = async (id) => {
     console.log('Deleting item with ID:', id);
     try {
-      await axios.delete(`http://localhost:3000/api/v1/items/${id}`, {
+      await axios.delete(`${API_URL}/api/v1/items/${id}`, {
         headers: getAuthHeaders(),
       });
       console.log('Item deleted successfully');
@@ -106,7 +106,7 @@ const ItemsTable = () => {
   console.log('Editing item:', editingItem);
   try {
     const response = await axios.put(
-      `http://localhost:3000/api/v1/items/${editingItem.id}`,
+      `${API_URL}/api/v1/items/${editingItem.id}`,
       editingItem,
       { headers: getAuthHeaders() }
     );
@@ -161,7 +161,7 @@ const ItemsTable = () => {
       console.log("Initiating checkout with cart:", cart);
   
       const orderResponse = await axios.post(
-        'http://localhost:3000/api/v1/orders',
+        `${API_URL}/api/v1/orders`,
         { user_id: currentUser.id, amount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0) },
         { headers: getAuthHeaders() }
       );
@@ -184,7 +184,7 @@ const ItemsTable = () => {
           console.log("Order Description Payload:", payload);
   
           return axios.post(
-            'http://localhost:3000/api/v1/order_descriptions',
+            `${API_URL}/api/v1/order_descriptions`,
             payload,
             { headers: getAuthHeaders() }
           );
