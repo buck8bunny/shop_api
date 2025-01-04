@@ -16,7 +16,12 @@
 # end
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'http://localhost:3001' # Укажите домен вашего React-приложения
+    if Rails.env.production?
+      origins 'https://shop-s2wc.onrender.com'  # Продукшн-домен
+    else
+      origins 'http://localhost:3001'  # Локальный фронтенд
+    end
+
 
     resource '*',
       credentials: true,
