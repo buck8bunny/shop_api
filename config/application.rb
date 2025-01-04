@@ -39,7 +39,7 @@ module ShopApi
     # config/application.rb
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'https://shop-s2wc.onrender.com', 'http://localhost:3001', 'http://127.0.0.1:3000', 'http://localhost:3000'
+        origins 'https://shop-api-308l.onrender.com', 'http://localhost:3001', 'http://127.0.0.1:3000', 'http://localhost:3000', 'https://shop-api-indol-nu.vercel.app'
         resource '*',
                 headers: :any,
                 methods: [:get, :post, :put, :patch, :delete, :options, :head]
