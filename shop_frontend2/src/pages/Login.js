@@ -42,12 +42,17 @@ const Login = () => {
         { headers: { 'Content-Type': 'application/json' } }
       );
   
-      console.log('Response received from API:', response);
-  
-      // Логируем все заголовки, чтобы понять, что приходит
-      console.log('All response headers:', response.headers);
-console.log('Access-Token:', response.headers['access-token']);
-console.log('Authorization:', response.headers['authorization']);
+      // Извлекаем токен и другие данные из заголовков ответа
+const accessToken = response.headers['access-token'];
+const authorization = response.headers['authorization'];
+const client = response.headers['client'];
+const uid = response.headers['uid'];
+
+// Выводим для проверки
+console.log('Access Token:', accessToken);
+console.log('Authorization:', authorization);
+console.log('Client:', client);
+console.log('UID:', uid);
 
   
       // Попробуем извлечь токены
