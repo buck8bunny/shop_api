@@ -37,36 +37,23 @@ const Login = () => {
   
     try {
       const response = await axios.post(
-        `${API_URL}/api/v1/auth/sign_in`,
-        { email, password },
-        { headers: { 'Content-Type': 'application/json' } }
+         `${API_URL}/api/v1/auth/sign_in`,
+        {
+          email,
+          password,
+        }
       );
   
-      // Извлекаем токен и другие данные из заголовков ответа
-const accessToken = response.headers['access-token'];
-const authorization = response.headers['authorization'];
-const client = response.headers['client'];
-const uid = response.headers['uid'];
-
-// Выводим для проверки
-console.log('Access Token:', accessToken);
-console.log('Authorization:', authorization);
-console.log('Client:', client);
-console.log('UID:', uid);
+      console.log('Response received from API:', response);
+      console.log('All response headers:', response.headers);
 
   
-      // Попробуем извлечь токены
+      // Извлечение токенов из заголовков
       const authHeaders = {
         'access-token': response.headers['access-token'],
-        'client': response.headers['client'],
-        'uid': response.headers['uid'],
+        client: response.headers['client'],
+        uid: response.headers['uid'],
       };
-  
-      if (!authHeaders['access-token']) {
-        console.error('Access token is missing');
-        alert('Login failed! Missing access token.');
-        return;
-      }
   
       console.log('Authentication headers extracted:', authHeaders);
   
@@ -81,13 +68,13 @@ console.log('UID:', uid);
   
       // Переход на главную страницу
       navigate('/');
+      // Обновление страницы после авторизации
+      // window.location.reload();
     } catch (error) {
       console.error('Login failed. Error details:', error.response?.data || error.message);
       alert('Login failed! Please check your email and password.');
     }
   };
-  
-  
   
 
   // Проверка авторизации при загрузке компонента
