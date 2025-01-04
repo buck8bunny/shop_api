@@ -1,5 +1,5 @@
 class SessionsController < DeviseTokenAuth::SessionsController
-  before_action :sanitize_params, only: [:create]
+  # before_action :sanitize_params, only: [:create]
 
   private
 
