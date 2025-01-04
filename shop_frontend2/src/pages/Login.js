@@ -74,7 +74,7 @@ const Login = () => {
       // Переход на главную страницу
       navigate('/');
       // Обновление страницы после авторизации
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.error('Login failed. Error details:', error.response?.data || error.message);
       alert('Login failed! Please check your email and password.');
