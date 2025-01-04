@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_URL;
-const API_URL = process.env.REACT_APP_API_URL;
 
 const AdminUsersTable = () => {
   const [users, setUsers] = useState([]);
@@ -52,7 +51,6 @@ const AdminUsersTable = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API_URL}/api/v1/users/${id}`, {
-      await axios.delete(`${API_URL}/api/v1/users/${id}`, {
         headers: getAuthHeaders(),
       });
       setUsers(users.filter((user) => user.id !== id));
@@ -66,7 +64,6 @@ const AdminUsersTable = () => {
   const handleUpdate = async (updatedUser) => {
     try {
       const response = await axios.put(
-        `${API_URL}/api/v1/users/${updatedUser.id}`,
         `${API_URL}/api/v1/users/${updatedUser.id}`,
         updatedUser,
         { headers: getAuthHeaders() }
