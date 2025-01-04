@@ -87,3 +87,15 @@ production:
     host: <%= ENV["DB_HOST"] %> # Хост базы данных (например, db-name.onrender.com)
     port: <%= ENV["DB_PORT"] %> # Порт базы данных (обычно 5432)
 
+ cache:
+    <<: *primary_production
+    database: <%= ENV["DB_NAME_CACHE"] %> # Для кэша, если вы используете другую базу данных
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary_production
+    database: <%= ENV["DB_NAME_QUEUE"] %> # Для очередей, если вы используете другую базу данных
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary_production
+    database: <%= ENV["DB_NAME_CABLE"] %> # Для Action Cable, если используется другая база данных
+    migrations_paths: db/cable_migrate
