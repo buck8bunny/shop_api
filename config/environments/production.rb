@@ -86,6 +86,9 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
   config.hosts << "shop-api-308l.onrender.com"
   config.hosts << "shop-api-indol-nu.vercel.app"
+  config.hosts << "https://shop-api-308l.onrender.com"
+  config.hosts << "https://shop-api-indol-nu.vercel.app"
+
   # config/environments/production.rb
   config.public_file_server.enabled = true
   config.public_file_server.index_name = 'index.html'  # Для фронтенда
