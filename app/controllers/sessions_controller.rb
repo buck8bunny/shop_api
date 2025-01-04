@@ -4,11 +4,7 @@ class SessionsController < DeviseTokenAuth::SessionsController
   private
 
   def sanitize_params
-    if params[:session]
-      params[:email] = params[:session][:email]
-      params[:password] = params[:session][:password]
-      params.delete(:session)
-    end
+    params.delete(:session) if params[:session]
     Rails.logger.info "Sanitized parameters: #{params.inspect}"
   end
 end

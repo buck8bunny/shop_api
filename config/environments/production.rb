@@ -92,5 +92,5 @@ Rails.application.configure do
 # Отключите Action Cable, если не используете
 config.action_cable.mount_path = nil
 
-
+config.api_only = true
 end
