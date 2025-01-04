@@ -21,7 +21,7 @@ gem "solid_queue"
 gem "solid_cable"
 
 gem 'devise'
-gem 'vite_ruby'
+# gem 'vite_ruby'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
