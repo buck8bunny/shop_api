@@ -60,8 +60,13 @@ const Login = () => {
   
       console.log('Authentication headers extracted:', authHeaders);
   
-      // Сохранение токенов в localStorage
-      localStorage.setItem('authHeaders', JSON.stringify(authHeaders));
+      if (authHeaders['access-token']) {
+        // Сохранение токенов в localStorage
+        localStorage.setItem('authHeaders', JSON.stringify(authHeaders));
+        console.log('Auth headers saved to localStorage');
+      } else {
+        console.error('Missing access-token in response headers');
+      }
   
       // Сохранение данных пользователя
       const userData = response.data.data;
@@ -71,13 +76,12 @@ const Login = () => {
   
       // Переход на главную страницу
       navigate('/');
-      // Обновление страницы после авторизации
-      // window.location.reload();
     } catch (error) {
       console.error('Login failed. Error details:', error.response?.data || error.message);
       alert('Login failed! Please check your email and password.');
     }
   };
+  
   
 
   // Проверка авторизации при загрузке компонента
