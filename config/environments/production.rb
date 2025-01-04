@@ -10,10 +10,13 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled.
-  config.consider_all_requests_local = false
+  # config.consider_all_requests_local = false
+  config.consider_all_requests_local = true
 
   # Cache assets for far-future expiry since they are all digest stamped.
-  config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
+
+  # config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
+  config.action_controller.perform_caching = false
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
@@ -41,7 +44,8 @@ Rails.application.configure do
   config.silence_healthcheck_path = "/up"
 
   # Don't log any deprecations.
-  config.active_support.report_deprecations = false
+  # config.active_support.report_deprecations = false
+  config.active_support.deprecation = :log
 
   # Replace the default in-process memory cache store with a durable alternative.
   #   config.cache_store = :memory_store
