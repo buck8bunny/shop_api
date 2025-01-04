@@ -44,6 +44,7 @@ const ItemsTable = () => {
 
     try {
       const response = await axios.get(`${API_URL}/api/v1/users/${userId}`, {
+      const response = await axios.get(`${API_URL}/api/v1/users/${userId}`, {
         headers: getAuthHeaders(),
       });
       console.log('Current User Response:', response.data);
@@ -58,6 +59,7 @@ const ItemsTable = () => {
     try {
       setLoading(true);
       console.log('Fetching items...');
+      const response = await axios.get(`${API_URL}/api/v1/items`, {
       const response = await axios.get(`${API_URL}/api/v1/items`, {
         headers: getAuthHeaders(),
       });
@@ -76,6 +78,7 @@ const ItemsTable = () => {
     try {
       const response = await axios.post(
         `${API_URL}/api/v1/items`,
+        `${API_URL}/api/v1/items`,
         newItem,
         { headers: getAuthHeaders() }
       );
@@ -92,6 +95,7 @@ const ItemsTable = () => {
     console.log('Deleting item with ID:', id);
     try {
       await axios.delete(`${API_URL}/api/v1/items/${id}`, {
+      await axios.delete(`${API_URL}/api/v1/items/${id}`, {
         headers: getAuthHeaders(),
       });
       console.log('Item deleted successfully');
@@ -106,6 +110,7 @@ const ItemsTable = () => {
   console.log('Editing item:', editingItem);
   try {
     const response = await axios.put(
+      `${API_URL}/api/v1/items/${editingItem.id}`,
       `${API_URL}/api/v1/items/${editingItem.id}`,
       editingItem,
       { headers: getAuthHeaders() }
@@ -162,6 +167,7 @@ const ItemsTable = () => {
   
       const orderResponse = await axios.post(
         `${API_URL}/api/v1/orders`,
+        `${API_URL}/api/v1/orders`,
         { user_id: currentUser.id, amount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0) },
         { headers: getAuthHeaders() }
       );
@@ -184,6 +190,7 @@ const ItemsTable = () => {
           console.log("Order Description Payload:", payload);
   
           return axios.post(
+            `${API_URL}/api/v1/order_descriptions`,
             `${API_URL}/api/v1/order_descriptions`,
             payload,
             { headers: getAuthHeaders() }
