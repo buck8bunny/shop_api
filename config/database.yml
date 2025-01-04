@@ -86,8 +86,7 @@ production:
     password: <%= ENV["DB_PASSWORD"] %> # Пароль пользователя базы данных
     host: <%= ENV["DB_HOST"] %> # Хост базы данных (например, db-name.onrender.com)
     port: <%= ENV["DB_PORT"] %> # Порт базы данных (обычно 5432)
-
- cache:
+  cache:
     <<: *primary_production
     database: <%= ENV["DB_NAME_CACHE"] %> # Для кэша, если вы используете другую базу данных
     migrations_paths: db/cache_migrate
