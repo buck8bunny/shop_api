@@ -12,7 +12,7 @@ const Login = () => {
     axios.interceptors.request.use(
       (config) => {
         console.log('Interceptor triggered. Config before modification:', config);
-
+  
         const authHeaders = JSON.parse(localStorage.getItem('authHeaders'));
         if (authHeaders) {
           console.log('Auth headers found in localStorage:', authHeaders);
@@ -20,7 +20,7 @@ const Login = () => {
           config.headers['client'] = authHeaders['client'];
           config.headers['uid'] = authHeaders['uid'];
         }
-
+  
         console.log('Config after modification by interceptor:', config);
         return config;
       },
@@ -30,6 +30,7 @@ const Login = () => {
       }
     );
   }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,7 +73,7 @@ const Login = () => {
       // Переход на главную страницу
       navigate('/');
       // Обновление страницы после авторизации
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       console.error('Login failed. Error details:', error.response?.data || error.message);
       alert('Login failed! Please check your email and password.');
