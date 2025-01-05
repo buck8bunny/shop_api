@@ -6,7 +6,6 @@ const Home = () => {
   const [user, setUser] = useState(null); // Хранит данные о текущем пользователе
   const navigate = useNavigate();
 
-  // Имитация проверки авторизации (например, из локального хранилища или API)
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user')); // Получение данных из локального хранилища
     if (storedUser) {
@@ -51,7 +50,6 @@ const Home = () => {
           <button className="btn btn-danger mt-3" onClick={handleLogout}>Logout</button>
         </div>
       )}
-      {/* <ItemList /> */}
     </div>
   );
 };

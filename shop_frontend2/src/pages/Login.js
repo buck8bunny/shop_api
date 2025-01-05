@@ -43,7 +43,7 @@ const Login = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          withCredentials: true, // Добавьте, если сервер требует
+          withCredentials: true, 
         }
       );
       
@@ -91,7 +91,6 @@ const Login = () => {
 
     if (authHeaders && user) {
       console.log('User is already authenticated:', user);
-      // Здесь можно перенаправить авторизованного пользователя, если требуется
       // navigate('/');
     } else {
       console.log('User is not authenticated');

@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 const Header = ({ user, onLogout }) => {
     const handleLogout = () => {
         if (onLogout) {
-          onLogout(); // Выполнение функции выхода
-          window.location.reload(); // Обновление страницы
+          onLogout(); 
+          window.location.reload();
         }
       };
   return (
