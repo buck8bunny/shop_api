@@ -93,13 +93,14 @@ Rails.application.configure do
   config.hosts << "https://shop-api-308l.onrender.com"
   config.hosts << "https://shop-api-indol-nu.vercel.app"
  config.hosts << "http://127.0.0.1:3000"
+ config.hosts << "http://0.0.0.0:3000"
+#  config.hosts.clear
 
-
-  # config/environments/production.rb
   config.public_file_server.enabled = true
-  config.public_file_server.index_name = 'index.html'  # Для фронтенда
+  # config.public_file_server.index_name = 'index.html'  # Для фронтенда
 # Отключите Action Cable, если не используете
 config.action_cable.mount_path = nil
 # config.force_ssl = true  
+
 # config.api_only = true
 end
