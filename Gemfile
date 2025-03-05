@@ -51,7 +51,7 @@ end
 
 gem 'rack-cors'
 gem 'devise_token_auth', '>= 1.2.0', git: "https://github.com/lynndylanhurley/devise_token_auth"
-gem 'omniauth', '~> 2.0'
+gem 'omniauth', '~> 2.1'
 
 gem 'dotenv-rails'
 
